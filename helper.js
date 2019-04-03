@@ -69,7 +69,7 @@
 
     // 初始化
     var course = $('#mainid > h1').text()
-    $('.content').prepend('<h1 id="helper" style="text-align:center;font-size:28px;">尔雅助手</h1>');
+    $('.content').prepend('<h1 id="helper" style="text-align:center;font-size:28px;">尔雅助手<a style="color:blue;" href="https://juszoe.github.io/erya" target="_blank">主页</a></h1>');
     if (window.frames['iframe'].contentDocument.readyState == 'complete') {
         start();
     }
