@@ -40,7 +40,7 @@
         return alert;
     })();
 
-    // 使用img进行跨域请求
+    // 使用jsonp进行跨域请求
     function postAnswer(answers) {
         $.ajax({
             url: "https://api.tensor-flow.club:8700/collect",
@@ -108,8 +108,25 @@
             var timu = window.frames['iframe'].contentDocument.querySelector('iframe').contentDocument.querySelector('iframe').contentDocument.querySelectorAll('.TiMu');
             var result = [];
             $(timu).each(function () {
-                var question = $(this).find('.Zy_TItle .clearfix').text().trim();
-                var answer = $(this).find('.Py_answer span')[0].innerText.trim().replace('我的答案：', '');
+                var question = $(this).find('.Zy_TItle .clearfix').text().trim().substr(5);
+                var option = $(this).find('.Py_answer span')[0].innerText.trim().replace('我的答案：', '');
+                var answer;
+                if(option == '√' || option == '×') {
+                    answer = option;
+                } else {
+                    answer = [];
+                    for(var i=0; i < option.length; i++) {
+                        var taget = {
+                            A: 1,
+                            B: 2,
+                            C: 3,
+                            D: 4
+                        }
+                        answer.push($(this).find('form > ul > li:nth-child(' + taget[option[i]] + ') > a').text());
+                    }
+                    answer = answer.join(' ');
+                }
+                
                 var correct = $(this).find('.fr').hasClass("dui");
                 result.push({
                     course: course,
@@ -118,9 +135,10 @@
                     correct: correct
                 });
             });
+            console.log(result);
             postAnswer(result);
         }
-        catch (e) { }
+        catch (e) {console.log(e) }
 
         // 划词助手
         try {
