@@ -20,7 +20,9 @@
     </div>
 2. 打开[尔雅学习界面](https://mooc1-1.chaoxing.com/mycourse/studentstudy)
 3. 点击一下书签栏里的“尔雅助手”，如下所示说明脚本运行中
+![运行效果](https://juszoe.github.io/erya/usage.png)
 4. 划词搜索答案，选中关键词自动搜索（题库有限，部分题目可能搜不到，请不要频繁尝试）
+![搜索答案](https://juszoe.github.io/erya/search.png)
 # 其他
 - 有更加强大的脚本，但正由于太过强大会被检测到，所以并不推荐 ~~平平淡淡才是真~~<br>
 以下为第三方脚本
