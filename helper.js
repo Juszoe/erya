@@ -54,7 +54,7 @@
             }
         });
     }
-    function getAnswer(course, keyword, cb) {
+    function getAnswer(course, keyword, success, error) {
         $.ajax({
             url: "https://api.tensor-flow.club:8700/answer",
             type: "GET",
@@ -63,7 +63,8 @@
                 keyword: keyword
             },
             dataType: "jsonp", //指定服务器返回的数据类型
-            success: cb
+            success: success,
+            error: error
         });
     }
 
@@ -111,11 +112,11 @@
                 var question = $(this).find('.Zy_TItle .clearfix').text().trim().substr(5);
                 var option = $(this).find('.Py_answer span')[0].innerText.trim().replace('我的答案：', '');
                 var answer;
-                if(option == '√' || option == '×') {
+                if (option == '√' || option == '×') {
                     answer = option;
                 } else {
                     answer = [];
-                    for(var i=0; i < option.length; i++) {
+                    for (var i = 0; i < option.length; i++) {
                         var taget = {
                             A: 1,
                             B: 2,
@@ -126,7 +127,7 @@
                     }
                     answer = answer.join(' ');
                 }
-                
+
                 var correct = $(this).find('.fr').hasClass("dui");
                 result.push({
                     course: course,
@@ -138,7 +139,7 @@
             console.log(result);
             postAnswer(result);
         }
-        catch (e) {console.log(e) }
+        catch (e) { }
 
         // 划词助手
         try {
@@ -152,7 +153,7 @@
                     $answer.text('正在搜索答案中...');
                     getAnswer(course, text, function (data) {
                         $answer.text('');
-                        if(data.length == 0) {
+                        if (data.length == 0) {
                             $answer.text('未搜索到答案');
                         }
                         for (var i = 0; i < data.length; i++) {
@@ -161,10 +162,40 @@
                             $answer.append('<p>【答案】 ' + o.answer + '</p>');
                             $answer.append('<hr style="border:none;border-top: 1px solid #fff;">');
                         }
+                    }, function () {
+                        $answer.text('搜索频繁，请稍后再试');
                     })
                 }
             });
-        } catch (e) { console.log(e) }
+        } catch (e) { }
+
+        // 字幕助手
+        try {
+            if ($('#erya-subtitle').length == 0) {
+                var iwindow = window.frames['iframe'].contentDocument.querySelector('iframe').contentWindow
+                var mid = iwindow.config("mid");
+                if (mid) {
+                    $.get('https://mooc1-1.chaoxing.com/richvideo/subtitle?mid=' + mid, function (data) {
+                        var path = data[0].url.replace('http://cs.ananas.chaoxing.com/support/', '').replace('.srt', '.vtt');
+                        $.get('https://cs-ans.chaoxing.com/support/sub/' + path, function (vtt) {
+                            var subtitle = $('<table id="erya-subtitle"></table>');
+                            vtt = vtt.replace('WEBVTT\n\n', '').split('\n');
+                            var pr = ''
+                            for (var i = 0; i < vtt.length; i += 4) {
+                                if(vtt[i + 1] == undefined) continue;
+                                var $id = '<td>' + vtt[i] + '</td>';
+                                var $time = '<td>' + vtt[i + 1].substring(0, 8) + '</td>';
+                                var $str = '<td>' + vtt[i + 2] + '</td>';
+                                subtitle.append('<tr>' + $id + $time + $str + '</tr>');
+                                pr += vtt[i + 2] + ',';
+                            }
+                            console.log(pr)
+                            $('#qqqq').append(subtitle);
+                        })
+                    })
+                }
+            }
+        } catch (e) { }
 
     }
 
