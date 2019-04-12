@@ -8,8 +8,10 @@
 # 功能
 - 解除课程视频播放限制，视频可后台播放
 - 课程播放完毕或暂停会弹出提示
+![提醒效果](https://juszoe.github.io/erya/notify.png)
 - 划关键字搜答案
 - 共享答案，丰富题库
+- 显示所有字幕，题目本质是从老师说过的话出的，也就是说答案几乎都能在字幕找到
 # 使用方法
 1. 拖动下方按钮到浏览器的书签栏(也称收藏夹)，相当于添加一个网页小书签，但书签的网址项里填的是一串脚本。
     <div style="cursor:move;height:60px;width:300px;background-color:#71AAFF;text-align:center;color:#fff;border-radius:5px;font-size:20px;line-height:60px;position: relative;">
