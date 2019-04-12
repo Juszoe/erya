@@ -1,7 +1,7 @@
 ﻿(function () {
     // 检测url
-    if (!window.location.href.startsWith('https://mooc1-1.chaoxing.com/mycourse/studentstudy')) {
-        alert('请在"学生学习页面"使用！ 地址为 https://mooc1-1.chaoxing.com/mycourse/studentstudy');
+    if (window.location.href.search('mooc1-1.chaoxing.com/mycourse/studentstudy') == -1) {
+        alert('请在"学生学习页面"使用！\n地址为 https://mooc1-1.chaoxing.com/mycourse/studentstudy');
         return;
     };
     if (window._eryahelper) return;
@@ -69,7 +69,7 @@
     }
 
     // 初始化
-    var course = $('#mainid > h1').text()
+    var course = /courseName:'(.*?)'/.exec(addOrUpdateClazzNote.toString())[1]
     $('.content').prepend('<h1 id="helper" style="text-align:center;font-size:28px;">尔雅助手<a style="color:blue;" href="https://juszoe.github.io/erya" target="_blank">主页</a></h1>');
     if (window.frames['iframe'].contentDocument.readyState == 'complete') {
         start();
