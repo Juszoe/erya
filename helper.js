@@ -12,7 +12,7 @@
         url: "https://api.tensor-flow.club:8700/static",
         type: "GET",
         dataType: "jsonp", //指定服务器返回的数据类型
-        success: function(){
+        success: function () {
             console.log('static')
         }
     });
@@ -185,23 +185,29 @@
                 var iwindow = window.frames['iframe'].contentDocument.querySelector('iframe').contentWindow
                 var mid = iwindow.config("mid");
                 if (mid) {
-                    $.get('https://mooc1-1.chaoxing.com/richvideo/subtitle?mid=' + mid, function (data) {
-                        var path = data[0].url.replace('http://cs.ananas.chaoxing.com/support/', '').replace('.srt', '.vtt');
-                        $.get('https://cs-ans.chaoxing.com/support/sub/' + path, function (vtt) {
-                            var subtitle = $('<table id="erya-subtitle"></table>');
-                            vtt = vtt.replace('WEBVTT\n\n', '').split('\n');
-                            var pr = ''
-                            for (var i = 0; i < vtt.length; i += 4) {
-                                if(vtt[i + 1] == undefined) continue;
-                                var $id = '<td>' + vtt[i] + '</td>';
-                                var $time = '<td>' + vtt[i + 1].substring(0, 8) + '</td>';
-                                var $str = '<td>' + vtt[i + 2] + '</td>';
-                                subtitle.append('<tr>' + $id + $time + $str + '</tr>');
-                                pr += vtt[i + 2] + ',';
-                            }
-                            console.log(pr)
-                            $('#qqqq').append(subtitle);
-                        })
+                    $.get('/richvideo/subtitle?mid=' + mid, function (data) {
+                        try {
+                            var path = data[0].url.replace('http://cs.ananas.chaoxing.com/support/', '').replace('.srt', '.vtt');
+                            $.get('https://cs-ans.chaoxing.com/support/sub/' + path, function (vtt) {
+                                try {
+                                    var subtitle = $('<table id="erya-subtitle"></table>');
+                                    vtt = vtt.replace('WEBVTT\n\n', '').split('\n');
+                                    var pr = ''
+                                    for (var i = 0; i < vtt.length; i += 4) {
+                                        if (vtt[i + 1] == undefined) continue;
+                                        var $id = '<td>' + vtt[i] + '</td>';
+                                        var $time = '<td>' + vtt[i + 1].substring(0, 8) + '</td>';
+                                        var $str = '<td>' + vtt[i + 2] + '</td>';
+                                        subtitle.append('<tr>' + $id + $time + $str + '</tr>');
+                                        pr += vtt[i + 2] + ',';
+                                    }
+                                    console.log(pr)
+                                    $('#qqqq').append(subtitle);
+                                }
+                                catch (e) { }
+                            })
+                        } catch (e) { }
+
                     })
                 }
             }
