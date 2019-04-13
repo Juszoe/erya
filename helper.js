@@ -7,6 +7,16 @@
     if (window._eryahelper) return;
     window._eryahelper = true;
 
+    // 统计
+    $.ajax({
+        url: "https://api.tensor-flow.club:8700/static",
+        type: "GET",
+        dataType: "jsonp", //指定服务器返回的数据类型
+        success: function(){
+            console.log('static')
+        }
+    });
+
     // 提醒接口
     var notify = (function () {
         if (!("Notification" in window)) {
