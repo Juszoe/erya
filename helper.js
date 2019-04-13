@@ -80,6 +80,7 @@
 
     // 初始化
     var course = /courseName:'(.*?)'/.exec(addOrUpdateClazzNote.toString())[1]
+    $('.content').prepend('<p>Q群:980310440 仅供技术交流、反馈BUG、提出建议，</p>')
     $('.content').prepend('<h1 id="helper" style="text-align:center;font-size:28px;">尔雅助手<a style="color:blue;" href="https://juszoe.github.io/erya" target="_blank">主页</a></h1>');
     if (window.frames['iframe'].contentDocument.readyState == 'complete') {
         start();
