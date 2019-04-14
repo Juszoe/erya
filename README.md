@@ -20,7 +20,7 @@
             href='javascript:(function() { var hm = document.createElement("script"); hm.src = "https://juszoe.github.io/erya/helper.js"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })();'
             onclick="alert('请把按钮拖动到书签栏');return false;">尔雅助手</a>
     </div>
-2. 打开[尔雅学习界面](https://mooc1-1.chaoxing.com/mycourse/studentstudy)
+2. 打开超星尔雅的学习界面
 3. 点击一下书签栏里的“尔雅助手”，如下所示说明脚本运行中
 ![运行效果](https://juszoe.github.io/erya/usage.png)
 4. 划词搜索答案，选中关键词自动搜索（题库有限，部分题目可能搜不到，请不要频繁尝试）
