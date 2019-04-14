@@ -1,4 +1,8 @@
-﻿(function () {
+﻿/**
+ * version: 0.91
+ * author: Juszoe
+ */
+(function () {
     // 检测url
     if (window.location.href.search('chaoxing.com/mycourse/studentstudy') == -1) {
         alert('请在"学生学习页面"使用！\n地址为 https://mooc1-1.chaoxing.com/mycourse/studentstudy');
@@ -6,16 +10,6 @@
     };
     if (window._eryahelper) return;
     window._eryahelper = true;
-
-    // 统计
-    $.ajax({
-        url: "https://api.tensor-flow.club:8700/static",
-        type: "GET",
-        dataType: "jsonp", //指定服务器返回的数据类型
-        success: function () {
-            console.log('static')
-        }
-    });
 
     // 提醒接口
     var notify = (function () {
@@ -37,7 +31,7 @@
                     notify = function (msg) {
                         var notification = new Notification('尔雅助手', {
                             body: msg + '\n(点击关闭)',
-                            icon: 'https://github.com/favicon.ico'
+                            icon: 'https://juszoe.github.io/erya/favicon.ico'
                         });
                         notification.onclick = function () {
                             notification.close();
@@ -60,7 +54,6 @@
             },
             dataType: "jsonp", //指定服务器返回的数据类型
             success: function (data) {
-                console.log(data);
             }
         });
     }
@@ -80,7 +73,16 @@
 
     // 初始化
     var course = /courseName:'(.*?)'/.exec(addOrUpdateClazzNote.toString())[1]
-    $('.content').prepend('<p>尔雅助手Q群:980310440 仅供技术交流、反馈BUG、提出建议，</p>')
+    // 公告
+    $('.content').prepend('<div id="announce"></div>');
+    $.ajax({
+        url: "https://api.tensor-flow.club:8700/announce",
+        type: "GET",
+        dataType: "jsonp", //指定服务器返回的数据类型
+        success: function (data) {
+            $('#announce').html(data);
+        }
+    });
     $('.content').prepend('<h1 id="helper" style="text-align:center;font-size:28px;">尔雅助手<a style="color:blue;" href="https://juszoe.github.io/erya" target="_blank">主页</a></h1>');
     if (window.frames['iframe'].contentDocument.readyState == 'complete') {
         start();
@@ -147,7 +149,6 @@
                     correct: correct
                 });
             });
-            console.log(result);
             postAnswer(result);
         }
         catch (e) { }
@@ -191,19 +192,33 @@
                             var path = data[0].url.replace('http://cs.ananas.chaoxing.com/support/', '').replace('.srt', '.vtt');
                             $.get('https://cs-ans.chaoxing.com/support/sub/' + path, function (vtt) {
                                 try {
-                                    var subtitle = $('<table id="erya-subtitle"></table>');
                                     vtt = vtt.replace('WEBVTT\n\n', '').split('\n');
-                                    var pr = ''
+                                    window._eryasubtitle = '';
                                     for (var i = 0; i < vtt.length; i += 4) {
                                         if (vtt[i + 1] == undefined) continue;
-                                        var $id = '<td>' + vtt[i] + '</td>';
-                                        var $time = '<td>' + vtt[i + 1].substring(0, 8) + '</td>';
-                                        var $str = '<td>' + vtt[i + 2] + '</td>';
-                                        subtitle.append('<tr>' + $id + $time + $str + '</tr>');
-                                        pr += vtt[i + 2] + ',';
+                                        window._eryasubtitle += vtt[i + 2] + '，';
                                     }
-                                    console.log(pr)
-                                    $('#qqqq').append(subtitle);
+                                    $('#qqqq').append('<input placeholder="输入关键字搜索字幕" id="subtitle-search" type="text" style="border:1px solid gray; border-radius:3px; padding: 5px; width: 260px;" />');
+                                    $('#qqqq').append(' 显示字数范围：<select id="erya-search-range"><option value ="20">20</option><option value ="10">10</option><option value ="50">50</option><option value ="100">100</option></select>');
+                                    $('#qqqq').append('<div id="erya-subtitle" style="line-height: 150%;"></div>');
+                                    $('#subtitle-search').on('compositionend', function (event) {
+                                        var keyword = event.target.value;
+                                        if (keyword) {
+                                            var reg = new RegExp(keyword, 'g');
+                                            var copy = window._eryasubtitle.replace(reg, '<span style="background-color: yellow;">' + keyword + '</span>');
+                                            var range = $("#erya-search-range option:selected").val();
+                                            var reg2 = new RegExp('.{0,' + range + '}' + keyword + '.{0,' + range + '}', 'g');
+                                            var result;
+                                            while (result = reg2.exec(window._eryasubtitle)) {
+                                                var str = result[0].replace(keyword, '<span style="background-color: yellow;">' + keyword + '</span>');
+                                                copy = '<p style="font-weight: bold; border-bottom: 1px solid gray;">...' + str + '...</p>' + copy;
+                                            }
+                                            $('#erya-subtitle').html(copy);
+                                        } else {
+                                            $('#erya-subtitle').text(window._eryasubtitle);
+                                        }
+                                    })
+                                    $('#erya-subtitle').text(window._eryasubtitle);
                                 }
                                 catch (e) { }
                             })
