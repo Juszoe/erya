@@ -1,5 +1,5 @@
 ﻿/**
- * version: 0.91
+ * version: 0.92
  * author: Juszoe
  */
 (function () {
@@ -71,8 +71,9 @@
         });
     }
 
-    // 初始化
-    var course = /courseName:'(.*?)'/.exec(addOrUpdateClazzNote.toString())[1]
+    // 获取课程名
+    var course = /courseName:'(.*?)'/.exec(addOrUpdateClazzNote.toString())[1];
+
     // 公告
     $('.content').prepend('<div id="announce"></div>');
     $.ajax({
@@ -89,6 +90,18 @@
     }
     $('iframe').on("load", function () {
         start();
+    })
+
+    // 发电区
+    $('body').prepend(
+        '<div id="erya-sponsor" style="float: left; position: absolute; left: 20px; top: 50px;">' +
+        '<button>作者发电区</button>' +
+        '<div style="display: none; width： 200px;">' +
+        '<p>支持作者，请作者吃顿饭<img src="https://api.tensor-flow.club:8700/static/emoticon.png" width="20px" height="20px"></p>' +
+        '<img src="https://api.tensor-flow.club:8700/static/wechatcode.png" width="200px" />' +
+        '</div></div>');
+    $('#erya-sponsor button').click(function () {
+        $('#erya-sponsor div').toggle(200);
     })
 
     // 启动助手
