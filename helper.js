@@ -1,5 +1,5 @@
 ﻿/**
- * version: 0.92
+ * version: 0.93
  * author: Juszoe
  */
 (function () {
@@ -165,6 +165,45 @@
             postAnswer(result);
         }
         catch (e) { }
+
+        // 一键查询答案
+        try {
+            var idocument = window.frames['iframe'].contentDocument.querySelector('iframe').contentDocument.querySelector('iframe').contentDocument;
+            var timu = idocument.querySelectorAll('.TiMu');
+            if (!$(timu).find('.Py_answer span')[0]) {
+                var $button = $('<input type="button" style="float: left; height: 25px; margin: 5px 0px;" value="一键查询" />');
+                $button.click(function () {
+                    var question = $(this).siblings('.clearfix').text().trim().substr(5);
+                    var $answer = $(idocument.querySelector('#answer'));
+                    $.ajax({
+                        url: "https://api.tensor-flow.club:8700/cx",
+                        type: "GET",
+                        data: {
+                            course: course,
+                            question: question
+                        },
+                        dataType: "jsonp", //指定服务器返回的数据类型
+                        success: function (data) {
+                            $answer.text('');
+                            if (data.length == 0) {
+                                $answer.text('未搜索到答案');
+                            }
+                            for (var i = 0; i < data.length; i++) {
+                                var o = data[i]
+                                $answer.append('<p>【题目】 ' + o.question + '</p>');
+                                $answer.append('<p>【答案】 ' + o.answer + '</p>');
+                                $answer.append('<hr style="border:none;border-top: 1px solid #fff;">');
+                            }
+                        },
+                        error: function () {
+                            $answer.text('搜索频繁，请稍后再试');
+                        }
+                    });
+                })
+                $(timu).find('.Zy_TItle').prepend($button);
+            }
+        }
+        catch (e) { console.log(e) }
 
         // 划词助手
         try {
