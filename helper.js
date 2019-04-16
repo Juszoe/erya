@@ -94,7 +94,7 @@
 
     // 发电区
     $('body').prepend(
-        '<div id="erya-sponsor" style="float: left; position: absolute; left: 20px; top: 50px;">' +
+        '<div id="erya-sponsor" style="float: left; position: absolute; left: 20px; top: 50px; z-index: 100000;">' +
         '<button>作者发电区</button>' +
         '<div style="display: none; width： 200px;">' +
         '<p>支持作者，请作者吃顿饭<img src="https://api.tensor-flow.club:8700/static/emoticon.png" width="20px" height="20px"></p>' +
