@@ -95,10 +95,10 @@
     // 发电区
     $('body').prepend(
         '<div id="erya-sponsor" style="float: left; position: absolute; left: 20px; top: 50px; z-index: 100000;">' +
-        '<button>作者发电区</button>' +
+        '<button>发电区 每天领红包</button>' +
         '<div style="display: none; width： 200px;">' +
-        '<p>支持作者，请作者吃顿饭<img src="https://api.tensor-flow.club:8700/static/emoticon.png" width="20px" height="20px"></p>' +
-        '<img src="https://api.tensor-flow.club:8700/static/wechatcode.png" width="200px" />' +
+        '<p>领取支付宝红包，线下店铺使用后我也有奖励<img src="https://api.tensor-flow.club:8700/static/emoticon.png" width="20px" height="20px"></p>' +
+        '<img src="https://api.tensor-flow.club:8700/static/alipaycode.png" width="200px" /><br><img src="https://api.tensor-flow.club:8700/static/wechatcode.png" width="200px" />' +
         '</div></div>');
     $('#erya-sponsor button').click(function () {
         $('#erya-sponsor div').toggle(200);
