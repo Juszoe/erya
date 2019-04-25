@@ -1,5 +1,5 @@
 ﻿/**
- * version: 0.93
+ * version: 1.0.0
  * author: Juszoe
  */
 (function () {
@@ -60,6 +60,7 @@
     function getAnswer(course, keyword, success, error) {
         $.ajax({
             url: "https://api.tensor-flow.club:8700/answer",
+            timeout: 5000,
             type: "GET",
             data: {
                 course: course,
@@ -92,12 +93,12 @@
         start();
     })
 
-    // 发电区
+    // 赞助
     $('body').prepend(
         '<div id="erya-sponsor" style="float: left; position: absolute; left: 20px; top: 50px; z-index: 100000;">' +
-        '<button>发电区 每天领红包</button>' +
+        '<button>赞助</button>' +
         '<div style="display: none; width： 200px;">' +
-        '<p>领取支付宝红包，线下店铺使用后我也有奖励<img src="https://api.tensor-flow.club:8700/static/emoticon.png" width="20px" height="20px"></p>' +
+        '<p>感谢支持，维护题库需要服务器和域名的开销</p>' +
         '<img src="https://api.tensor-flow.club:8700/static/alipaycode.png" width="200px" /><br><img src="https://api.tensor-flow.club:8700/static/wechatcode.png" width="200px" />' +
         '</div></div>');
     $('#erya-sponsor button').click(function () {
@@ -112,7 +113,8 @@
             setTimeout(function () {
                 try {
                     trycount++;
-                    var video = window.frames['iframe'].contentDocument.querySelector('iframe').contentDocument.querySelector('video')
+                    var idocument = window.frames['iframe'].contentDocument.querySelector('iframe').contentDocument;
+                    var video = idocument.querySelector('video')
                     video.addEventListener('ended', function () {
                         notify('《' + course + '》 课程视频播放完毕');
                     });
@@ -122,6 +124,14 @@
                                 video.play();
                         }, 100);
                     });
+                    // 回答视频内题目回答
+                    setInterval(function () {
+                        var btn = idocument.querySelector('#reader input[value="true"]');
+                        if (btn) {
+                            btn.click();
+                            idocument.querySelector('.ans-videoquiz-submit').click();
+                        }
+                    }, 5000);
                 } catch (e) {
                     if (trycount > 20) return;
                     videoListener()
@@ -177,6 +187,7 @@
                     var $answer = $(idocument.querySelector('#answer'));
                     $.ajax({
                         url: "https://api.tensor-flow.club:8700/cx",
+                        timeout: 5000,
                         type: "GET",
                         data: {
                             course: course,
@@ -203,7 +214,36 @@
                 $(timu).find('.Zy_TItle').prepend($button);
             }
         }
-        catch (e) { console.log(e) }
+        catch (e) { }
+
+        // 题目报错
+        try {
+            var idocument = window.frames['iframe'].contentDocument.querySelector('iframe').contentDocument.querySelector('iframe').contentDocument;
+            var timu = idocument.querySelectorAll('.TiMu');
+            var $button = $('<input type="button" style="float: right; height: 25px; margin: 0px 5px;" value="题库报错" />');
+            var $input = $('<input class="erya-feedback" type="text" style="float: right; height: 25px; margin: 0px 5px;" placeholder="正确答案(选填)" />')
+            $button.click(function () {
+                var question = $(this).siblings('.clearfix').text().trim().substr(5);
+                var option = $(this).parent().parent().find('.Zy_ulTop').text().trim().replace(/\s{5,}/g, ' ');
+                var answer = $(this).siblings('.erya-feedback').val();
+                console.log(answer)
+                $.ajax({
+                    url: "https://api.tensor-flow.club:8700/feedback",
+                    type: "GET",
+                    data: {
+                        question: question,
+                        option: option,
+                        answer: answer
+                    },
+                    dataType: "jsonp", //指定服务器返回的数据类型
+                    success: function (data) {
+                        alert('已收到反馈');
+                    }
+                });
+            })
+            $(timu).find('.Zy_TItle').append($input);
+            $(timu).find('.Zy_TItle').append($button);
+        } catch (e) { }
 
         // 划词助手
         try {
