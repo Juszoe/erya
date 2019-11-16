@@ -97,10 +97,9 @@
     $('body').prepend(
         '<div id="erya-sponsor" style="float: left; position: absolute; left: 20px; top: 50px; z-index: 100000;">' +
         '<button>赞助</button>' +
-        '<div style="background-color: white; border: 1px black solid; border-radius: 5px; box-shadow: 1px 1px 5px #aaaaaa;">' +
+        '<div style="background-color: white; border: 1px black solid; border-radius: 5px; box-shadow: 1px 1px 5px #aaaaaa; display: none;">' +
         '<p>感谢支持，维护题库需要服务器和域名的开销</p>' +
-        '<p>每天<span style="color: red;">双十一</span>活动麻烦点一次赞也是对作者的支持</p>' +
-        '<img src="https://api.tensor-flow.club:8700/static/1111.jpg" width="250px" /><br><img src="https://api.tensor-flow.club:8700/static/wechatcode.png" width="250px" />' +
+        '<img src="https://api.tensor-flow.club:8700/static/wechatcode.png" width="250px" />' +
         '</div></div>');
     $('#erya-sponsor button').click(function () {
         $('#erya-sponsor div').toggle(200);
