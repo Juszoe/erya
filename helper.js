@@ -47,7 +47,7 @@
     // 使用jsonp进行跨域请求
     function postAnswer(answers) {
         $.ajax({
-            url: "https://api.tensor-flow.club:8700/collect",
+            url: "https://erya.salty-fish.website:8700/collect",
             type: "GET",
             data: {
                 answers: JSON.stringify(answers)
@@ -59,7 +59,7 @@
     }
     function getAnswer(course, keyword, success, error) {
         $.ajax({
-            url: "https://api.tensor-flow.club:8700/answer",
+            url: "https://erya.salty-fish.website:8700/answer",
             timeout: 5000,
             type: "GET",
             data: {
@@ -78,7 +78,7 @@
     // 公告
     $('.content').prepend('<div id="announce"></div>');
     $.ajax({
-        url: "https://api.tensor-flow.club:8700/announce",
+        url: "https://erya.salty-fish.website:8700/announce",
         type: "GET",
         dataType: "jsonp", //指定服务器返回的数据类型
         success: function (data) {
@@ -99,7 +99,7 @@
         '<button>赞助</button>' +
         '<div style="background-color: white; border: 1px black solid; border-radius: 5px; box-shadow: 1px 1px 5px #aaaaaa; display: none;">' +
         '<p>感谢支持，维护题库需要服务器和域名的开销</p>' +
-        '<img src="https://api.tensor-flow.club:8700/static/wechatcode.png" width="250px" />' +
+        '<img src="https://erya.salty-fish.website:8700/static/wechatcode.png" width="250px" />' +
         '</div></div>');
     $('#erya-sponsor button').click(function () {
         $('#erya-sponsor div').toggle(200);
@@ -186,7 +186,7 @@
                     var question = $(this).siblings('.clearfix').text().trim().substr(5);
                     var $answer = $(idocument.querySelector('#answer'));
                     $.ajax({
-                        url: "https://api.tensor-flow.club:8700/cx",
+                        url: "https://erya.salty-fish.website:8700/cx",
                         timeout: 5000,
                         type: "GET",
                         data: {
@@ -228,7 +228,7 @@
                 var answer = $(this).siblings('.erya-feedback').val();
                 console.log(answer)
                 $.ajax({
-                    url: "https://api.tensor-flow.club:8700/feedback",
+                    url: "https://erya.salty-fish.website:8700/feedback",
                     type: "GET",
                     data: {
                         question: question,
