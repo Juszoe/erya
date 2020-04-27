@@ -4,8 +4,8 @@
  */
 (function () {
     // 检测url
-    if (window.location.href.search('chaoxing.com/mycourse/studentcourse') == -1) {
-        alert('请在"学生学习页面"使用！\n地址为 https://mooc1-1.chaoxing.com/mycourse/studentcourse');
+    if (window.location.href.search('chaoxing.com/mycourse/student') == -1) {
+        alert('请在"学生学习页面"使用！');
         return;
     };
     if (window._eryahelper) return;
